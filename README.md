@@ -1,1 +1,513 @@
-# vas.github.io
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vasile | High-Ticket Closer & Web Designer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 60px;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ffffff;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-outline {
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-outline.hover {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+        }
+        
+        /* Noise Texture */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        /* Text Reveal Animation */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .reveal-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        
+        /* Magnetic Button */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        /* Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            20% { clip: rect(76px, 9999px, 15px, 0); }
+            40% { clip: rect(12px, 9999px, 63px, 0); }
+            60% { clip: rect(89px, 9999px, 31px, 0); }
+            80% { clip: rect(45px, 9999px, 78px, 0); }
+            100% { clip: rect(23px, 9999px, 56px, 0); }
+        }
+        
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 99px, 0); }
+            20% { clip: rect(12px, 9999px, 45px, 0); }
+            40% { clip: rect(78px, 9999px, 23px, 0); }
+            60% { clip: rect(34px, 9999px, 67px, 0); }
+            80% { clip: rect(91px, 9999px, 12px, 0); }
+            100% { clip: rect(56px, 9999px, 89px, 0); }
+        }
+        
+        /* Scroll Progress */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ffffff, #888888);
+            z-index: 9999;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        
+        /* Line Animation */
+        .line {
+            width: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            transition: width 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .line.active {
+            width: 100%;
+        }
+        
+        /* Experience Card Hover */
+        .experience-card {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .experience-card:hover {
+            transform: translateX(20px);
+        }
+        
+        /* Portfolio Grid */
+        .portfolio-item {
+            transition: all 0.5s ease;
+        }
+        
+        .portfolio-item:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Mobile Cursor Disable */
+        @media (pointer: coarse) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+        
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+    
+    <!-- Noise Overlay -->
+    <div class="noise"></div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 mix-blend-difference">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tighter magnetic-btn hover-target" data-cursor="hover">
+                VASILE<span class="text-neutral-500">.</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#experience" class="text-sm uppercase tracking-widest hover:text-neutral-400 transition-colors magnetic-btn hover-target" data-cursor="hover">Experience</a>
+                <a href="#portfolio" class="text-sm uppercase tracking-widest hover:text-neutral-400 transition-colors magnetic-btn hover-target" data-cursor="hover">Portfolio</a>
+                <a href="#about" class="text-sm uppercase tracking-widest hover:text-neutral-400 transition-colors magnetic-btn hover-target" data-cursor="hover">About</a>
+                <a href="#contact" class="text-sm uppercase tracking-widest hover:text-neutral-400 transition-colors magnetic-btn hover-target" data-cursor="hover">Contact</a>
+            </div>
+            
+            <button class="md:hidden text-white hover-target" data-cursor="hover" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black z-40 transform translate-x-full transition-transform duration-500 md:hidden flex flex-col justify-center items-center space-y-8">
+        <a href="#experience" class="text-3xl font-display italic" onclick="toggleMenu()">Experience</a>
+        <a href="#portfolio" class="text-3xl font-display italic" onclick="toggleMenu()">Portfolio</a>
+        <a href="#about" class="text-3xl font-display italic" onclick="toggleMenu()">About</a>
+        <a href="#contact" class="text-3xl font-display italic" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-neutral-800/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto text-center">
+            <div class="mb-6 overflow-hidden">
+                <p class="text-sm md:text-base uppercase tracking-[0.3em] text-neutral-400 reveal-text">
+                    <span>Vasile</span>
+                </p>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter mb-8 leading-none">
+                <div class="overflow-hidden">
+                    <span class="block reveal-text"><span class="glitch" data-text="HIGH-TICKET">HIGH-TICKET</span></span>
+                </div>
+                <div class="overflow-hidden">
+                    <span class="block reveal-text"><span class="font-display italic font-normal text-neutral-500">Closer &</span></span>
+                </div>
+                <div class="overflow-hidden">
+                    <span class="block reveal-text"><span>DESIGNER</span></span>
+                </div>
+            </h1>
+
+            <div class="mt-12 flex flex-col md:flex-row gap-4 justify-center items-center">
+                <a href="#experience" class="magnetic-btn hover-target px-8 py-4 bg-white text-black font-medium rounded-full hover:bg-neutral-200 transition-colors" data-cursor="hover">
+                    View Experience
+                </a>
+                <a href="mailto:vpanait007@gmail.com" class="magnetic-btn hover-target px-8 py-4 border border-white/30 rounded-full hover:bg-white/10 transition-colors" data-cursor="hover">
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Marquee Section -->
+    <section class="py-12 border-y border-white/10 overflow-hidden">
+        <div class="marquee-container">
+            <div class="marquee-content text-4xl md:text-6xl font-display italic text-neutral-700">
+                HIGH-TICKET CLOSING • TEAM MANAGEMENT • WEB DESIGN • APPOINTMENT SETTING • SALES MENTORSHIP • FOREX SALES • CONVERSION OPTIMIZATION • HIGH-TICKET CLOSING • TEAM MANAGEMENT • WEB DESIGN • APPOINTMENT SETTING • SALES MENTORSHIP • FOREX SALES • CONVERSION OPTIMIZATION •
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section (No Images) -->
+    <section id="experience" class="py-24 md:py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-16 md:mb-24">
+                <div>
+                    <p class="text-sm uppercase tracking-widest text-neutral-500 mb-4">Career Path</p>
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tight">
+                        EXPERIENCE<br>
+                        <span class="font-display italic font-normal text-neutral-500">& Journey</span>
+                    </h2>
+                </div>
+                <div class="mt-6 md:mt-0 max-w-md">
+                    <p class="text-neutral-400 leading-relaxed">
+                        3+ years mastering high-ticket sales, from front-line closing to managing elite teams. Every role sharpened my ability to convert conversations into revenue.
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-16">
+                <!-- Experience 1: Clinica Neuros -->
+                <div class="experience-card group border-l-2 border-white/20 pl-8 md:pl-12 py-4 hover:border-white transition-colors">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-2 group-hover:text-neutral-300 transition-colors">Clinica Neuros</h3>
+                            <p class="text-xl text-neutral-500">Brain Event Bucharest</p>
+                        </div>
+                        <div class="mt-2 md:mt-0 text-right">
+                            <span class="inline-block px-4 py-2 border border-white/20 rounded-full text-sm">Online Closer</span>
+                            <span class="inline-block px-4 py-2 border border-white/20 rounded-full text-sm mt-2 md:mt-0 md:ml-2">Closer Team Manager</span>
+                        </div>
+                    </div>
+                    
+                    <div class="line mb-6"></div>
+                    
+                    <p class="text-neutral-400 mb-6 leading-relaxed text-lg">
+                        <strong class="text-white">Dual Role: Closer & Team Manager.</strong> Started as an Online Closer for high-value neurological clinic events, mastering the art of remote high-ticket sales. Promoted to Manager of the Closer Team, where I led, trained, and optimized a team of sales professionals. Implemented conversion strategies that increased team close rates and developed standardized objection handling frameworks for the healthcare sector.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Team Leadership</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">High-Ticket Closing</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Sales Training</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Process Optimization</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Healthcare Sales</span>
+                    </div>
+                </div>
+
+                <!-- Experience 2: Elite Mentorship -->
+                <div class="experience-card group border-l-2 border-white/20 pl-8 md:pl-12 py-4 hover:border-white transition-colors">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-2 group-hover:text-neutral-300 transition-colors">Elite Mentorship</h3>
+                            <p class="text-xl text-neutral-500">Andrei Valentin</p>
+                        </div>
+                        <div class="mt-2 md:mt-0">
+                            <span class="inline-block px-4 py-2 border border-white/20 rounded-full text-sm">Senior Appointment Setter</span>
+                        </div>
+                    </div>
+                    
+                    <div class="line mb-6"></div>
+                    
+                    <p class="text-neutral-400 mb-6 leading-relaxed text-lg">
+                        <strong class="text-white">Senior Appointment Setter for Premium Mentorship Programs.</strong> Managed end-to-end outreach and qualification for high-ticket coaching programs. Developed personalized messaging strategies that increased show-up rates by 40%. Conducted in-depth discovery calls to pre-qualify prospects, ensuring only high-intent leads reached the closing stage. Consistently exceeded monthly targets through relationship-based selling and strategic follow-up systems.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Appointment Setting</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Lead Qualification</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Discovery Calls</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">CRM Management</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Mentorship Sales</span>
+                    </div>
+                </div>
+
+                <!-- Experience 3: Alex Onta Trading -->
+                <div class="experience-card group border-l-2 border-white/20 pl-8 md:pl-12 py-4 hover:border-white transition-colors">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-2 group-hover:text-neutral-300 transition-colors">Trading Program</h3>
+                            <p class="text-xl text-neutral-500">Alex Onta</p>
+                        </div>
+                        <div class="mt-2 md:mt-0">
+                            <span class="inline-block px-4 py-2 border border-white/20 rounded-full text-sm">Online Closer</span>
+                        </div>
+                    </div>
+                    
+                    <div class="line mb-6"></div>
+                    
+                    <p class="text-neutral-400 mb-6 leading-relaxed text-lg">
+                        <strong class="text-white">Online Closer for Forex & Crypto Trading Education.</strong> Specialized in closing high-ticket trading mentorship programs ranging from €2,000 to €10,000+. Mastered the unique psychology of trading education sales—handling objections related to investment risk, market volatility, and ROI skepticism. Utilized consultative selling techniques to match prospects with the right program tier, resulting in 25% higher average order value compared to team average.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Online Closing</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Forex Sales</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Objection Mastery</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Consultative Selling</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">High-Value Transactions</span>
+                    </div>
+                </div>
+
+                <!-- Experience 4: Web Design -->
+                <div class="experience-card group border-l-2 border-white/20 pl-8 md:pl-12 py-4 hover:border-white transition-colors">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-2 group-hover:text-neutral-300 transition-colors">Web Design & Marketing</h3>
+                            <p class="text-xl text-neutral-500">Freelance & Agency</p>
+                        </div>
+                        <div class="mt-2 md:mt-0">
+                            <span class="inline-block px-4 py-2 border border-white/20 rounded-full text-sm">Web Designer</span>
+                            <span class="inline-block px-4 py-2 border border-white/20 rounded-full text-sm mt-2 md:mt-0 md:ml-2">Marketing Manager</span>
+                        </div>
+                    </div>
+                    
+                    <div class="line mb-6"></div>
+                    
+                    <p class="text-neutral-400 mb-6 leading-relaxed text-lg">
+                        <strong class="text-white">Conversion-Focused Web Design & Marketing Strategy.</strong> Design and develop high-converting websites and sales funnels for coaches, consultants, and trading educators. Unlike typical designers, I approach every project through the lens of sales psychology—every layout choice, color decision, and CTA placement is optimized for conversion. Manage end-to-end marketing campaigns including landing page optimization, email sequences, and ad creative that actually sells.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">UI/UX Design</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Sales Funnels</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Conversion Optimization</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Landing Pages</span>
+                        <span class="px-4 py-2 bg-white/5 rounded-full text-sm border border-white/10">Marketing Strategy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section (From Google Drive) -->
+    <section id="portfolio" class="py-24 md:py-32 px-6 bg-neutral-950 border-y border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-16 md:mb-24">
+                <div>
+                    <p class="text-sm uppercase tracking-widest text-neutral-500 mb-4">Selected Work</p>
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tight">
+                        PORTFOLIO<br>
+                        <span class="font-display italic font-normal text-neutral-500">& Projects</span>
+                    </h2>
+                </div>
+                <div class="mt-6 md:mt-0 max-w-md">
+                    <p class="text-neutral-400 leading-relaxed">
+                        A curated selection of my design work, sales campaigns, and digital experiences. Each project represents the intersection of aesthetics and conversion.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Portfolio Item 1 -->
+                <div class="portfolio-item group relative aspect-[4/3] bg-neutral-900 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition-colors">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-neutral-600 text-lg">Project Image 1</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                        <h3 class="text-2xl font-bold mb-2">Project Title 1</h3>
+                        <p class="text-neutral-400 mb-4 opacity-0 group-hover:opacity-100 transition-opacity">Web Design / Sales Funnel</p>
+                        <div class="h-px w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 2 -->
+                <div class="portfolio-item group relative aspect-[4/3] bg-neutral-900 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition-colors">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-neutral-600 text-lg">Project Image 2</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                        <h3 class="text-2xl font-bold mb-2">Project Title 2</h3>
+                        <p class="text-neutral-400 mb-4 opacity-0 group-hover:opacity-100 transition-opacity">Brand Identity / Website</p>
+                        <div class="h-px w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 3 -->
+                <div class="portfolio-item group relative aspect-[4/3] bg-neutral-900 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition-colors">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-neutral-600 text-lg">Project Image 3</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                        <h3 class="text-2xl font-bold mb-2">Project Title 3</h3>
+                        <p class="text-neutral-400 mb-4 opacity-0 group-hover:opacity-100 transition-opacity">Landing Page / Conversion Opt.</p>
+                        <div class="h-px w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 4 -->
+                <div class="portfolio-item group relative aspect-[4/3] bg-neutral-900 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition-colors">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover
