@@ -13,3 +13,12 @@
     "strictNullChecks": false
   }
 }
+
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
