@@ -12,8 +12,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Fraunces', '"Times New Roman"', "serif"],
-        sans: ['"Inter Tight"', "system-ui", "sans-serif"],
+        display: ['Newsreader', '"Times New Roman"', "serif"],
+        sans: ['Inter', "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "monospace"],
       },
       colors: {
