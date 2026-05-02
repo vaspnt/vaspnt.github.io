@@ -12,8 +12,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Instrument Serif"', "Times New Roman", "serif"],
-        sans: ["Manrope", "system-ui", "sans-serif"],
+        display: ['Fraunces', '"Times New Roman"', "serif"],
+        sans: ['"Inter Tight"', "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "monospace"],
       },
       colors: {

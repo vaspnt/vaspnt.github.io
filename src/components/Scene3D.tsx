@@ -35,13 +35,13 @@ export const Scene3D = () => {
       style={{ pointerEvents: "none" }}
     >
       <Suspense fallback={null}>
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} color="#7dd3fc" />
-        <directionalLight position={[-4, -2, 3]} intensity={0.6} color="#38bdf8" />
-        <pointLight position={[0, 0, 5]} intensity={0.8} color="#ffffff" />
-        <Orb position={[0, 0, 0]} scale={1.6} speed={1} color="#1a1f2e" />
-        <Orb position={[2.4, 1.2, -1]} scale={0.45} speed={1.4} color="#38bdf8" />
-        <Orb position={[-2.2, -1, -0.5]} scale={0.6} speed={0.8} color="#0f172a" />
+        <ambientLight intensity={0.35} />
+        <directionalLight position={[5, 5, 5]} intensity={1.4} color="#f5f1ea" />
+        <directionalLight position={[-4, -2, 3]} intensity={0.5} color="#d8d3ca" />
+        <pointLight position={[0, 0, 5]} intensity={0.7} color="#ffffff" />
+        <Orb position={[0, 0, 0]} scale={1.6} speed={1} color="#0a0a0a" />
+        <Orb position={[2.4, 1.2, -1]} scale={0.45} speed={1.4} color="#e8e3da" />
+        <Orb position={[-2.2, -1, -0.5]} scale={0.6} speed={0.8} color="#1a1a1a" />
       </Suspense>
     </Canvas>
   );

@@ -120,11 +120,6 @@ export const Hero = () => {
               </div>
             </div>
 
-            {/* Floating chip */}
-            <div className="absolute -bottom-6 -left-6 glass rounded-2xl p-4 shadow-elegant hidden md:block animate-float-slow">
-              <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Currently</div>
-              <div className="text-sm font-medium mt-1">CEO · Aervis Agency</div>
-            </div>
             <div className="absolute -top-6 -right-6 glass rounded-2xl px-4 py-3 shadow-elegant hidden md:flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center text-background text-xs font-bold">★</div>
               <div className="text-xs leading-tight">
