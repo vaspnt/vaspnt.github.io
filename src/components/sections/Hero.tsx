@@ -1,4 +1,4 @@
-import portrait from "@/assets/portrait.png";
+const portrait = "/placeholder.svg";
 import { ArrowRight, Download, Mail } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Scene3D } from "@/components/Scene3D";
